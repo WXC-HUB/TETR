@@ -14,7 +14,7 @@ public class TetrPlayer : PlayerBase
     public BlockGroup nowCtrlGroup;
 
     float lastDropTime = -3f;
-    public float dropCD = 3f;
+    public float dropCD = 1f;
 
     public void TurnBlock(bool isleft)
     {

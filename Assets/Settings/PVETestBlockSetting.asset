@@ -18,10 +18,36 @@ MonoBehaviour:
     groupHeight: 2
     centerBlock: {x: 2, y: 2}
     blockGroupList:
-    - type: 1
+    - type: 0
       blockHP: 10
       enemyCnt: 0
     - type: 1
+      blockHP: 10
+      enemyCnt: 0
+    - type: 0
+      blockHP: 10
+      enemyCnt: 2
+    - type: 1
+      blockHP: 10
+      enemyCnt: 0
+    - type: 2
+      blockHP: 10
+      enemyCnt: 0
+    - type: 1
+      blockHP: 10
+      enemyCnt: 0
+    enemys:
+    - type: 0
+      count: 5
+  - ID: 2
+    groupWidth: 3
+    groupHeight: 2
+    centerBlock: {x: 2, y: 2}
+    blockGroupList:
+    - type: 1
+      blockHP: 10
+      enemyCnt: 0
+    - type: 0
       blockHP: 10
       enemyCnt: 0
     - type: 2
@@ -30,16 +56,22 @@ MonoBehaviour:
     - type: 1
       blockHP: 10
       enemyCnt: 0
-    - type: 1
+    - type: 0
       blockHP: 10
       enemyCnt: 0
     - type: 1
       blockHP: 10
       enemyCnt: 0
+    enemys:
+    - type: 0
+      count: 2
   blockPrefabSetting:
   - type: 0
     prefab: {fileID: 0}
   - type: 1
     prefab: {fileID: 3957255452512040957, guid: a19defab0355ad446841c5ead9e6381b, type: 3}
   - type: 2
-    prefab: {fileID: 0}
+    prefab: {fileID: 3957255452512040957, guid: 646f80b84bfcb894fbb92e83b5eea717, type: 3}
+  enemyPrefabSetting:
+  - type: 0
+    prefab: {fileID: 8349011072065899575, guid: 2cc962769e8381347b44737f2950e82e, type: 3}

@@ -23,6 +23,8 @@ public class BlockGroup : MonoBehaviour
 
     public List<SubBlock> subBlockList;
 
+    public Transform SubEnemyRoot;
+
     float goingDownSpeed = 3f;
 
     public void InitBlockGroup(RawBlockGroup rawGroup)
@@ -33,7 +35,6 @@ public class BlockGroup : MonoBehaviour
             for (int j = 0; j < rawGroup.groupWidth; j++)
             {
                 int blockID = i * rawGroup.groupWidth + j;
-                Debug.Log(blockID);
                 RawBlock block = rawGroup.blockGroupList[blockID];
                 Vector2 v = new Vector2(j + 1, i + 1) - rawGroup.centerBlock;
                 v.y = -v.y;
@@ -49,6 +50,24 @@ public class BlockGroup : MonoBehaviour
 
                 }
             }
+        }
+
+        for (int i = 0; i < rawGroup.enemys.Count; i++)
+        {
+            SpawnSingelEnemy(rawGroup.enemys[i], rawGroup.groupHeight + i);
+        }
+    }
+
+    public void SpawnSingelEnemy(RawEnemy rawEnemy , int y_offset)
+    {
+
+        GameObject enemyObj = LevelManager.Instance.blockSetting.enemyPrefabSetting.Find((EnemyPrefab e) => e.type == rawEnemy.type).prefab;
+
+        for(int i = 0; i < rawEnemy.count; i+=1)
+        {
+            Vector3 blockOffset = new Vector3(0, y_offset, 0) * LevelManager.Instance.m_blockWidth + new Vector3(Mathf.CeilToInt((float)i / 2), 0, 0) * (i % 2 == 0 ? 1 : -1) * LevelManager.Instance.m_enemyGap;
+            Debug.Log(blockOffset);
+            GameObject newObj = Instantiate(enemyObj, transform.position + blockOffset, new Quaternion() , SubEnemyRoot);
         }
     }
 
@@ -79,7 +98,6 @@ public class BlockGroup : MonoBehaviour
                 return false;
             }
         }
-        Debug.Log(true);
         return true;
     }
 
@@ -121,12 +139,15 @@ public class BlockGroup : MonoBehaviour
 
     GameObject SpawnSingleBlock(RawBlock block , Vector3 offset)
     {
-        if(block.type == BlockType.BaseBlock)
+        Debug.Log(block.type);
+        if(block.type == BlockType.BaseBlock_A || block.type == BlockType.BaseBlock_B)
         {
             GameObject blockObj = LevelManager.Instance.blockSetting.blockPrefabSetting.Find((BlockPrefab n) => n.type == block.type).prefab;
             Vector3 blockOffset = new Vector3(offset.x, offset.y, 0) * LevelManager.Instance.m_blockWidth;
             return Instantiate(blockObj, transform.position + blockOffset, transform.rotation, transform);
         }
+
+
 
         return null;
         
@@ -186,11 +207,9 @@ public class BlockGroup : MonoBehaviour
 
             if (LevelManager.Instance.m_blockGrid.CanGoingDown(sub.block.transform.position) == false)
             {
-                Debug.Log(false);
                 return false;
             }
         }
-        Debug.Log(true);
         return true;
     }
 }

@@ -42,6 +42,34 @@ public class BlockGrid : MonoBehaviour
         }
     }
 
+    bool CheckSingleLineFilled(int lineID)
+    {
+        foreach(var cell in cells[lineID])
+        {
+            if (cell.attachBlock == null) return false;
+        }
+        return true;
+    }
+
+    public void CheckAllLineFilled()
+    {
+        for(int i =  0; i < 1; i++)
+        {
+            if (CheckSingleLineFilled(i))
+            {
+                SolidLine(i);
+            }
+        }
+    }
+
+    void SolidLine(int lineID)
+    {
+        foreach (var cell in cells[lineID])
+        {
+            if (cell.attachBlock != null) cell.attachBlock.OnGetSolid();
+        }
+    }
+
     public void InitGrid(Vector3 w_centerPos , int width , int height , float block_width)
     {
         cells = new List<List<Cell>>();
@@ -57,7 +85,6 @@ public class BlockGrid : MonoBehaviour
                 cell.centerPos = new Vector3((j - w_center), (0.5f + i), 0) * block_width + w_centerPos;
                 cell.gridPos = new Vector2Int(j, i);
 
-                Debug.Log(cell.centerPos);
 
                 if(i == height-1 && j == w_center)
                 {
@@ -109,12 +136,10 @@ public class BlockGrid : MonoBehaviour
         Cell nearCell = GetNearestCell(pos);
         if (nearCell.gridPos.y <= 0 && pos.y <= nearCell.centerPos.y)
         {
-            Debug.Log("type1");
             return false;
         }
         if (pos.y <= nearCell.centerPos.y && CellOffset(nearCell , up:-1).attachBlock != null)
         {
-            Debug.Log("type2");
             return false;
         }
 
@@ -158,7 +183,7 @@ public class BlockGrid : MonoBehaviour
         block.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         block.gameObject.layer = LayerMask.NameToLayer("BlockFixed");
 
-        
+        LevelManager.Instance.CheckAllGrid();
     }
 
 }

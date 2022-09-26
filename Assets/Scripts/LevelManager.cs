@@ -24,6 +24,7 @@ public class LevelManager : MonoSingleton<LevelManager>
     public Transform m_blockSpawnRoot;
     public Transform m_gridRoot;
     public float m_blockWidth;
+    public float m_enemyGap;
 
     public BlockSetting blockSetting;
 
@@ -70,6 +71,11 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         CheckNowBlock();
 
+    }
+    
+    public void CheckAllGrid()
+    {
+        m_blockGrid.CheckAllLineFilled();
     }
 
     void CheckNowBlock()
