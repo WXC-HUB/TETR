@@ -26,7 +26,10 @@ public class LevelManager : MonoSingleton<LevelManager>
     public float m_blockWidth;
     public float m_enemyGap;
 
+    public BlockBotType m_nowSelectType = BlockBotType.Free;
+
     public BlockSetting blockSetting;
+    public WeaponSetting weaponSetting;
 
     public BlockGrid m_blockGrid;
 
@@ -46,6 +49,7 @@ public class LevelManager : MonoSingleton<LevelManager>
         gameState = GameState.Running;
     }
 
+
     void _LoadPlayer(GameMode gameMode)
     {
         if(gameMode == GameMode.PVETPS)
@@ -57,7 +61,9 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     void _InitLevelBasicObject()
     {
-
+        GameObject TPSpalyer = Instantiate(blockSetting.TPSPlayerPrefab);
+        tpsPlayer.character = TPSpalyer.GetComponent<PlayerCharacterBase>();
+        tpsPlayer.character.EquipWeaponByID(1);
     }
 
     // Update is called once per frame
@@ -70,6 +76,8 @@ public class LevelManager : MonoSingleton<LevelManager>
         }
 
         CheckNowBlock();
+
+        
 
     }
     
@@ -100,6 +108,17 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         tetrPlayer.nowCtrlGroup = newGroup;
 
+        EventCenter.Instance.EventTrigger(EventCenterType.RefreshAssumeBlock, newGroup);
+
+    }
+
+    void _AssumeBlockDrop()
+    {
+        BlockGroup nowTestGroup = tetrPlayer.nowCtrlGroup;
+
+        if (nowTestGroup == null) return;
+
+        m_blockGrid.AssumeBlockDrop(nowTestGroup);
     }
 
     public void SwitchToNextBlock(bool goNext = false)

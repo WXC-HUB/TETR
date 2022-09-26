@@ -15,11 +15,13 @@ public class BlockGrid : MonoBehaviour
 {
     List<List<Cell>> cells;
 
+    List<GameObject> nowAssumeGroup;
+
     public Vector3 m_blockSpawnRoot;
     // Start is called before the first frame update
     void Start()
     {
-        
+        EventCenter.Instance.EventAddListener(EventCenterType.RefreshAssumeBlock, AssumeBlockDrop);
     }
 
     void DebugDrawCross(Vector3 centerPos , Color c)
@@ -53,7 +55,7 @@ public class BlockGrid : MonoBehaviour
 
     public void CheckAllLineFilled()
     {
-        for(int i =  0; i < 1; i++)
+        for(int i =  0; i < cells.Count; i++)
         {
             if (CheckSingleLineFilled(i))
             {
@@ -67,6 +69,67 @@ public class BlockGrid : MonoBehaviour
         foreach (var cell in cells[lineID])
         {
             if (cell.attachBlock != null) cell.attachBlock.OnGetSolid();
+        }
+    }
+
+    public Cell GetLowestCenterCell(BlockGroup blockGroup)
+    {
+        for (int i = 0; i < cells.Count; i++)
+        {
+            foreach(var sub in blockGroup.subBlockList)
+            {
+                Vector3 testPos = sub.block.transform.position + new Vector3(0, i, 0) * ( - LevelManager.Instance.m_blockWidth);
+                if( !CanGoingDown(testPos))
+                {
+                    Cell touchCell = GetNearestCell(testPos);
+                    return CellOffset(touchCell, -(int)sub.offSet.x, -(int)sub.offSet.y);
+                }
+            }
+        }
+
+        return GetNearestCell(blockGroup.transform.position);
+    }
+
+    public int GetMaxGoDownRows(BlockGroup blockGroup)
+    {
+        for (int i = 0; i < cells.Count; i++)
+        {
+            foreach (var sub in blockGroup.subBlockList)
+            {
+                Vector3 testPos = sub.block.transform.position + new Vector3(0, i, 0) * (-LevelManager.Instance.m_blockWidth);
+                if (!CanGoingDown(testPos))
+                {
+                    return i;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    public void AssumeBlockDrop(params object[] data)
+    {
+        BlockGroup blockGroup = (BlockGroup)data[0];
+        if(nowAssumeGroup!= null)
+        {
+            for (int i = 0; i < nowAssumeGroup.Count; i++)
+            {
+                Destroy(nowAssumeGroup[i]);
+            }
+        }
+        
+
+        int offset = GetMaxGoDownRows(blockGroup);
+
+        SpawnAssumeBlock(GetNearestCell(blockGroup.transform.position + new Vector3(0 , -LevelManager.Instance.m_blockWidth , 0) * offset ), blockGroup);
+    }
+
+    public void SpawnAssumeBlock(Cell center , BlockGroup blockGroup)
+    {
+        nowAssumeGroup = new List<GameObject>();
+        foreach(SubBlock sub in blockGroup.subBlockList)
+        {
+            nowAssumeGroup.Add( BlockUtils.SpawnSingleBlock(sub.rawInfo, sub.offSet, center.centerPos, transform, true) );
         }
     }
 
@@ -180,7 +243,9 @@ public class BlockGrid : MonoBehaviour
     {
         cell.attachBlock = block;
         block.GetComponent<Rigidbody2D>().MovePosition(cell.centerPos);
-        block.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        block.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
+
         block.gameObject.layer = LayerMask.NameToLayer("BlockFixed");
 
         LevelManager.Instance.CheckAllGrid();

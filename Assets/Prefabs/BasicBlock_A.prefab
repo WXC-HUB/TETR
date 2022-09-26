@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3957255452512040957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0081217a815a408489cdea656c157ac0, type: 3}
+  m_Script: {fileID: 11500000, guid: 845f03874b44fd249baf291af8c390b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isSolid: 0
@@ -147,4 +147,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7

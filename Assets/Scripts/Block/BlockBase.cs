@@ -45,4 +45,15 @@ public class BlockBase : MonoBehaviour
         this.GetComponent<SpriteRenderer>().color = Color.gray;
         isSolid = true;
     }
+
+    public virtual void OnSetAssumed()
+    {
+        Color c = this.GetComponent<SpriteRenderer>().color;
+        this.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, c.a * 0.3f);
+    }
+
+    public virtual void OnTakeDamage(int dmg)
+    {
+        HP -= dmg;
+    }
 }

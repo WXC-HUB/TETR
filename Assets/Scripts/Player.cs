@@ -30,7 +30,7 @@ public class TetrPlayer : PlayerBase
     {
         if(Time.time - lastDropTime >= dropCD)
         {
-            nowCtrlGroup.nowState = BlockGroupState.GoingDown;
+            nowCtrlGroup.StartDrop();
             lastDropTime = Time.time;
         }
         
@@ -47,20 +47,35 @@ public class TetrPlayer : PlayerBase
 
     public void SwitchBotType()
     {
-
+        LevelManager.Instance.m_nowSelectType = LevelManager.Instance.m_nowSelectType == BlockBotType.Free ? BlockBotType.Push : BlockBotType.Free;
     }
 }
 
 [System.Serializable]
 public class TpsPlayer : PlayerBase
 {
+    public PlayerCharacterBase character;
 
+    public void OnStartFire()
+    {
+        character.OnStartFire();
+    }
+
+    public void OnEndFire()
+    {
+        character.OnEndFire();
+    }
+
+    public void OnSetWeaponDir(Vector3 dir)
+    {
+        character.UpdateWeaponDir(dir);
+    }
 }
 
 [System.Serializable]
 public class AITetrPlayer : TetrPlayer
 {
-
+    
 }
 
 public class TetrPlayer1P: TetrPlayer
@@ -106,5 +121,30 @@ public class TetrPlayer1P: TetrPlayer
 [System.Serializable]
 public class TpsPlayer2P: TpsPlayer
 {
+    public override void OnTick()
+    {
+        base.OnTick();
 
+        float x = 0 + (Input.GetKey(KeyCode.LeftArrow) ? -1 : 1) + (Input.GetKey(KeyCode.RightArrow) ? 1 : -1);
+        float y = 0 + (Input.GetKey(KeyCode.DownArrow) ? -1 : 1) + (Input.GetKey(KeyCode.UpArrow) ? 1 : -1);
+
+        if(character != null)
+        {
+            character.Move(new Vector3(x, y, 0));
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnStartFire();
+        }
+
+        if (Input.GetMouseButtonUp(0) || !(Input.GetMouseButton(0)))
+        {
+            OnEndFire();
+        }
+
+        
+        OnSetWeaponDir(Camera.main.ScreenToWorldPoint(Input.mousePosition) - character.transform.position);
+
+    }
 }

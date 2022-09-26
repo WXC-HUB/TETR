@@ -60,4 +60,6 @@ public class BlockSetting : ScriptableObject
     public List<RawBlockGroup> BlockGroupPool;
     public List<BlockPrefab> blockPrefabSetting;
     public List<EnemyPrefab> enemyPrefabSetting;
+
+    public GameObject TPSPlayerPrefab;
 }

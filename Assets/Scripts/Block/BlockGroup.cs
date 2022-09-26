@@ -14,6 +14,14 @@ public class SubBlock
 {
     public Vector2 offSet;
     public BlockBase block;
+    public RawBlock rawInfo;
+}
+
+[System.Serializable]
+public enum BlockBotType
+{
+    Free,
+    Push
 }
 
 public class BlockGroup : MonoBehaviour
@@ -22,6 +30,8 @@ public class BlockGroup : MonoBehaviour
     public BlockGroupState nowState = BlockGroupState.Prepare;
 
     public List<SubBlock> subBlockList;
+
+
 
     public Transform SubEnemyRoot;
 
@@ -38,13 +48,14 @@ public class BlockGroup : MonoBehaviour
                 RawBlock block = rawGroup.blockGroupList[blockID];
                 Vector2 v = new Vector2(j + 1, i + 1) - rawGroup.centerBlock;
                 v.y = -v.y;
-                GameObject blockObj = SpawnSingleBlock(block,  v );
+                GameObject blockObj = BlockUtils.SpawnSingleBlock(block, v , transform.position, transform);
 
                 if(blockObj != null)
                 {
                     SubBlock sub = new SubBlock();
                     sub.offSet = v;
                     sub.block = blockObj.GetComponent<BlockBase>();
+                    sub.rawInfo = block;
 
                     subBlockList.Add(sub);
 
@@ -56,6 +67,13 @@ public class BlockGroup : MonoBehaviour
         {
             SpawnSingelEnemy(rawGroup.enemys[i], rawGroup.groupHeight + i);
         }
+    }
+
+    public void StartDrop()
+    {
+        nowState = BlockGroupState.GoingDown;
+
+        SubEnemyRoot.DetachChildren();
     }
 
     public void SpawnSingelEnemy(RawEnemy rawEnemy , int y_offset)
@@ -76,6 +94,7 @@ public class BlockGroup : MonoBehaviour
         if (CanMoveLeft(isleft) == false) return;
 
         transform.position += new Vector3(isleft?-LevelManager.Instance.m_blockWidth : LevelManager.Instance.m_blockWidth , 0 , 0);
+        EventCenter.Instance.EventTrigger(EventCenterType.RefreshAssumeBlock, this);
     }
 
     bool CanMoveLeft(bool isleft)
@@ -107,10 +126,13 @@ public class BlockGroup : MonoBehaviour
         {
             transform.Rotate(new Vector3(0, 0 , isleft ? 90 : -90) );
 
+
             for(int i = 0; i<subBlockList.Count; i++)
             {
                 subBlockList[i].offSet = isleft ? new Vector2(-subBlockList[i].offSet.y, subBlockList[i].offSet.x) : new Vector2(subBlockList[i].offSet.y, -subBlockList[i].offSet.x);
             }
+
+            EventCenter.Instance.EventTrigger(EventCenterType.RefreshAssumeBlock, this);
         }
 
         return false;
@@ -147,8 +169,6 @@ public class BlockGroup : MonoBehaviour
             return Instantiate(blockObj, transform.position + blockOffset, transform.rotation, transform);
         }
 
-
-
         return null;
         
     }
@@ -174,6 +194,10 @@ public class BlockGroup : MonoBehaviour
         if (CanGoingDown())
         {
             transform.position += new Vector3(0, -speedScale * goingDownSpeed * Time.deltaTime, 0);
+            foreach(var block in subBlockList)
+            {
+                block.block.gameObject.layer = LayerMask.NameToLayer("BlockGoingDown");
+            }
         }
         else
         {
@@ -187,6 +211,9 @@ public class BlockGroup : MonoBehaviour
         LevelManager.Instance.m_blockGrid.SpawnFixBlockFromNearbyNode(subBlockList);
         nowState = BlockGroupState.ReachBottom;
         transform.DetachChildren();
+
+        EventCenter.Instance.EventTrigger(EventCenterType.RefreshAssumeBlock, this);
+
         Destroy(gameObject);
     }
 
