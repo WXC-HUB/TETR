@@ -32,8 +32,7 @@ public class BulletBase : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.layer);
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Wall") || collision.gameObject.layer == LayerMask.NameToLayer("WallUp"))
         {
             DestroyBullet();
         }else if(collision.gameObject.layer == LayerMask.NameToLayer("BlockFixed") || collision.gameObject.layer == LayerMask.NameToLayer("BlockGoingDown"))

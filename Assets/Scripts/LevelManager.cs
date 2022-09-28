@@ -36,6 +36,13 @@ public class LevelManager : MonoSingleton<LevelManager>
     int _nowSelect = 0;
 
     public GameObject m_blockGroupPrefab;
+
+
+    public Vector3 GetTPSPlayerPos()
+    {
+        return tpsPlayer.character.transform.position;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +61,10 @@ public class LevelManager : MonoSingleton<LevelManager>
     {
         if(gameMode == GameMode.PVETPS)
         {
-            tetrPlayer = new TetrPlayer1P();
+            //tetrPlayer = new TetrPlayer1P();
+            tetrPlayer = new AITetrPlayer();
+            ((AITetrPlayer)tetrPlayer).InitAI(GetComponent<DaiAI.TETRAgentBase>());
+            GetComponent<DaiAI.TETRAgentBase>().isActive = true;
             tpsPlayer = new TpsPlayer2P();
         }
     }
