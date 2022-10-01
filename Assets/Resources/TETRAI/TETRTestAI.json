@@ -1,0 +1,150 @@
+{
+    "version": "0.3.0",
+    "scope": "tree",
+    "id": "9172c13a-51e4-4f0b-aaed-6398da249a17",
+    "title": "TETRTest",
+    "description": "",
+    "root": "adf577eb-cdfe-4ae6-845b-02f867301e1f",
+    "properties": {},
+    "nodes": {
+      "77e5ce0d-6168-4ca4-855b-a545d4e89f01": {
+        "id": "77e5ce0d-6168-4ca4-855b-a545d4e89f01",
+        "name": "Condition",
+        "title": "C_haveBlock",
+        "description": "",
+        "properties": {
+          "b_haveBlock": "true"
+        },
+        "display": {
+          "x": 120,
+          "y": -96
+        }
+      },
+      "34eee96b-4bef-4bb7-925a-fbfe588c3b47": {
+        "id": "34eee96b-4bef-4bb7-925a-fbfe588c3b47",
+        "name": "Sequence",
+        "title": "Sequence",
+        "description": "",
+        "properties": {},
+        "display": {
+          "x": -48,
+          "y": -36
+        },
+        "children": [
+          "77e5ce0d-6168-4ca4-855b-a545d4e89f01",
+          "8bdcbfaf-f2e7-4a25-a7e6-59c2a689b171"
+        ]
+      },
+      "adf577eb-cdfe-4ae6-845b-02f867301e1f": {
+        "id": "adf577eb-cdfe-4ae6-845b-02f867301e1f",
+        "name": "Selector",
+        "title": "？",
+        "description": "",
+        "properties": {},
+        "display": {
+          "x": -216,
+          "y": -36
+        },
+        "children": [
+          "a0f0643a-ca17-4e23-b719-0b498a0c5058",
+          "34eee96b-4bef-4bb7-925a-fbfe588c3b47",
+          "8df47807-146d-4859-8a5d-f66cf9e461fb"
+        ]
+      },
+      "8df47807-146d-4859-8a5d-f66cf9e461fb": {
+        "id": "8df47807-146d-4859-8a5d-f66cf9e461fb",
+        "name": "Succeeder",
+        "title": "S_IDLE",
+        "description": "",
+        "properties": {
+          "action": "A_Idle"
+        },
+        "display": {
+          "x": 0,
+          "y": 120
+        }
+      },
+      "8c96c1b9-8d09-45d5-b5bc-58a78661ed3c": {
+        "id": "8c96c1b9-8d09-45d5-b5bc-58a78661ed3c",
+        "name": "Condition",
+        "title": "C_canDropBlock",
+        "description": "",
+        "properties": {
+          "b_haveBlock": "true",
+          "b_canDropBlock": "true"
+        },
+        "display": {
+          "x": 108,
+          "y": -252
+        }
+      },
+      "a0f0643a-ca17-4e23-b719-0b498a0c5058": {
+        "id": "a0f0643a-ca17-4e23-b719-0b498a0c5058",
+        "name": "Sequence",
+        "title": "Sequence",
+        "description": "",
+        "properties": {},
+        "display": {
+          "x": -60,
+          "y": -192
+        },
+        "children": [
+          "8c96c1b9-8d09-45d5-b5bc-58a78661ed3c",
+          "15126167-aa4e-4a2f-829e-482573f006fc"
+        ]
+      },
+      "15126167-aa4e-4a2f-829e-482573f006fc": {
+        "id": "15126167-aa4e-4a2f-829e-482573f006fc",
+        "name": "Runner",
+        "title": "A_DropBlock",
+        "description": "",
+        "properties": {
+          "action": "A_DropBlock"
+        },
+        "display": {
+          "x": 108,
+          "y": -180
+        }
+      },
+      "8bdcbfaf-f2e7-4a25-a7e6-59c2a689b171": {
+        "id": "8bdcbfaf-f2e7-4a25-a7e6-59c2a689b171",
+        "name": "Runner",
+        "title": "A_DropBlock",
+        "description": "",
+        "properties": {
+          "action": "A_MoveBlockToRandomPos"
+        },
+        "display": {
+          "x": 120,
+          "y": 0
+        }
+      }
+    },
+    "display": {
+      "camera_x": 960,
+      "camera_y": 440.5,
+      "camera_z": 1,
+      "x": -372,
+      "y": -36
+    },
+    "custom_nodes": [
+      {
+        "version": "0.3.0",
+        "scope": "node",
+        "name": "Condition",
+        "category": "condition",
+        "title": "ConditionTest",
+        "description": null,
+        "properties": {}
+      },
+      {
+        "version": "0.3.0",
+        "scope": "node",
+        "name": "Selector",
+        "category": "composite",
+        "title": "？",
+        "description": null,
+        "properties": {}
+      }
+    ]
+  }

@@ -5,17 +5,17 @@ namespace DaiAI
 {
     public class EnemyAgentBase : DaiAIAgent
     {
-
+        BotCharacterBase botcharacterBase;
         // Use this for initialization
-        void Start()
+        public override void Start()
         {
+            base.Start();
+            TextAsset itemText = Resources.Load<TextAsset>("BotAI/BotTest");
+            RawBehaviorTree rawTree =  LitJson.JsonMapper.ToObject<RawBehaviorTree>(itemText.text);
+            behaviorTree.InitTreeFromRawInfo(rawTree);
 
+            botcharacterBase = this.GetComponent<BotCharacterBase>();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

@@ -61,7 +61,7 @@ public class EventCenter : Single<EventCenter>
         {
             // eventsDictonary[eventName]();
             eventsDictonary[eventName].Invoke(data);
-        }
+        } 
     }
 
     public void Clear()

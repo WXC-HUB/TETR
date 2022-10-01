@@ -30,12 +30,19 @@ public class BlockGroup : MonoBehaviour
     public BlockGroupState nowState = BlockGroupState.Prepare;
 
     public List<SubBlock> subBlockList;
-
+    public List<List<BotCharacterBase>> subEnemys;
 
 
     public Transform SubEnemyRoot;
 
     float goingDownSpeed = 3f;
+
+    public int GetNowOffset()
+    {
+        Cell c_center = LevelManager.Instance.m_blockGrid.GetNearestCell(transform.position);
+
+        return c_center.gridPos.x - LevelManager.Instance.m_blockGrid.m_center_x;
+    }
 
     public void InitBlockGroup(RawBlockGroup rawGroup)
     {
@@ -63,9 +70,11 @@ public class BlockGroup : MonoBehaviour
             }
         }
 
+
+        subEnemys = new List<List<BotCharacterBase>>();
         for (int i = 0; i < rawGroup.enemys.Count; i++)
         {
-            SpawnSingelEnemy(rawGroup.enemys[i], rawGroup.groupHeight + i);
+            subEnemys.Add(  SpawnSingelEnemy(rawGroup.enemys[i], rawGroup.groupHeight + i) );
         }
     }
 
@@ -73,20 +82,34 @@ public class BlockGroup : MonoBehaviour
     {
         nowState = BlockGroupState.GoingDown;
 
+        foreach(var enemygroup in subEnemys)
+        {
+            foreach(var enemy in enemygroup)
+            {
+                enemy.SetCharacterActive(true);
+            }
+        }
+
         SubEnemyRoot.DetachChildren();
     }
 
-    public void SpawnSingelEnemy(RawEnemy rawEnemy , int y_offset)
+    public List<BotCharacterBase> SpawnSingelEnemy(RawEnemy rawEnemy , int y_offset)
     {
 
         GameObject enemyObj = LevelManager.Instance.blockSetting.enemyPrefabSetting.Find((EnemyPrefab e) => e.type == rawEnemy.type).prefab;
 
+        List<BotCharacterBase> objs = new List<BotCharacterBase>();
+
         for(int i = 0; i < rawEnemy.count; i+=1)
         {
             Vector3 blockOffset = new Vector3(0, y_offset, 0) * LevelManager.Instance.m_blockWidth + new Vector3(Mathf.CeilToInt((float)i / 2), 0, 0) * (i % 2 == 0 ? 1 : -1) * LevelManager.Instance.m_enemyGap;
-            Debug.Log(blockOffset);
             GameObject newObj = Instantiate(enemyObj, transform.position + blockOffset, new Quaternion() , SubEnemyRoot);
+            objs.Add(newObj.GetComponent<BotCharacterBase>());
+
+            newObj.GetComponent<BotCharacterBase>().EquipWeaponByID(rawEnemy.weaponID);
         }
+
+        return objs;
     }
 
     public void TryMoveLeft(bool isleft)
@@ -143,7 +166,6 @@ public class BlockGroup : MonoBehaviour
         foreach(var sub in subBlockList)
         {
             Vector3 targetdir = isleft ? new Vector3( -sub.offSet.y , sub.offSet.x, 0) : new Vector3(sub.offSet.y, -sub.offSet.x, 0);
-            Debug.Log("form:" + sub.offSet.ToString() + "test:" + targetdir);
             bool havewall = Physics2D.BoxCast(transform.position, new Vector2(LevelManager.Instance.m_blockWidth, LevelManager.Instance.m_blockWidth), 0, targetdir, LevelManager.Instance.m_blockWidth * targetdir.magnitude , layerMask: LayerMask.GetMask("Wall"));
             bool haveblock = Physics2D.BoxCast(transform.position, new Vector2(LevelManager.Instance.m_blockWidth, LevelManager.Instance.m_blockWidth), 0, targetdir, LevelManager.Instance.m_blockWidth * targetdir.magnitude, layerMask: LayerMask.GetMask("BlockFixed"));
 
@@ -151,7 +173,6 @@ public class BlockGroup : MonoBehaviour
 
             if (haveblock || havewall)
             {
-                Debug.Log(231);
                 return false;
             }
         }
@@ -161,7 +182,6 @@ public class BlockGroup : MonoBehaviour
 
     GameObject SpawnSingleBlock(RawBlock block , Vector3 offset)
     {
-        Debug.Log(block.type);
         if(block.type == BlockType.BaseBlock_A || block.type == BlockType.BaseBlock_B)
         {
             GameObject blockObj = LevelManager.Instance.blockSetting.blockPrefabSetting.Find((BlockPrefab n) => n.type == block.type).prefab;

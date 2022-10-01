@@ -1,0 +1,179 @@
+{
+    "version": "0.3.0",
+    "scope": "tree",
+    "id": "de9e0bf6-8789-4c1f-a291-05fe0327083c",
+    "title": "A behavior tree",
+    "description": "",
+    "root": "f2991e2a-39ea-46b1-8b4a-882eff322e3b",
+    "properties": {},
+    "nodes": {
+      "a8c7ebe7-430e-4750-9a88-09aaab53f922": {
+        "id": "a8c7ebe7-430e-4750-9a88-09aaab53f922",
+        "name": "Sequence",
+        "title": "Sequence",
+        "description": "",
+        "properties": {},
+        "display": {
+          "x": 24,
+          "y": -144
+        },
+        "children": [
+          "25f635e1-87d1-430e-867a-739ccc91ab2f",
+          "6db40f60-4933-4234-9404-051206be7b58",
+          "1448d302-828d-40e6-8478-bbbe26b947e2"
+        ]
+      },
+      "ad6d3311-28fb-433d-b827-299c7070d798": {
+        "id": "ad6d3311-28fb-433d-b827-299c7070d798",
+        "name": "Succeeder",
+        "title": "S_Idle",
+        "description": "",
+        "properties": {
+          "action": "A_Idle"
+        },
+        "display": {
+          "x": 84,
+          "y": 264
+        }
+      },
+      "25f635e1-87d1-430e-867a-739ccc91ab2f": {
+        "id": "25f635e1-87d1-430e-867a-739ccc91ab2f",
+        "name": "Condition",
+        "title": "C_playerOutofRange",
+        "description": "",
+        "properties": {
+          "n_playerDis": ">5"
+        },
+        "display": {
+          "x": 204,
+          "y": -216
+        }
+      },
+      "6db40f60-4933-4234-9404-051206be7b58": {
+        "id": "6db40f60-4933-4234-9404-051206be7b58",
+        "name": "Condition",
+        "title": "C_haveGun",
+        "description": "",
+        "properties": {
+          "b_haveGun": "true"
+        },
+        "display": {
+          "x": 204,
+          "y": -156
+        }
+      },
+      "1448d302-828d-40e6-8478-bbbe26b947e2": {
+        "id": "1448d302-828d-40e6-8478-bbbe26b947e2",
+        "name": "Runner",
+        "title": "R_RunToPlayer",
+        "description": "",
+        "properties": {
+          "action": "A_MoveToPlayer",
+          "speedscale": 2
+        },
+        "display": {
+          "x": 216,
+          "y": -84
+        }
+      },
+      "d88f623e-d2f4-4a3d-9f47-ef4509b0f985": {
+        "id": "d88f623e-d2f4-4a3d-9f47-ef4509b0f985",
+        "name": "Sequence",
+        "title": "Sequence",
+        "description": "",
+        "properties": {},
+        "display": {
+          "x": 24,
+          "y": 84
+        },
+        "children": [
+          "cc9ba4ad-a13b-42ea-9a87-0c7ecaf883e3",
+          "da814c8d-b2dd-43ae-8f60-13b13d876d2e",
+          "775d106b-21d9-4a45-8f31-cf0b47f44cfb"
+        ]
+      },
+      "cc9ba4ad-a13b-42ea-9a87-0c7ecaf883e3": {
+        "id": "cc9ba4ad-a13b-42ea-9a87-0c7ecaf883e3",
+        "name": "Condition",
+        "title": "C_playerOutofRange",
+        "description": "",
+        "properties": {
+          "n_playerDis": ">2"
+        },
+        "display": {
+          "x": 240,
+          "y": 0
+        }
+      },
+      "da814c8d-b2dd-43ae-8f60-13b13d876d2e": {
+        "id": "da814c8d-b2dd-43ae-8f60-13b13d876d2e",
+        "name": "Condition",
+        "title": "C_haveGun",
+        "description": "",
+        "properties": {
+          "b_haveGun": "true"
+        },
+        "display": {
+          "x": 240,
+          "y": 60
+        }
+      },
+      "775d106b-21d9-4a45-8f31-cf0b47f44cfb": {
+        "id": "775d106b-21d9-4a45-8f31-cf0b47f44cfb",
+        "name": "Runner",
+        "title": "R_movetoPlayer",
+        "description": "Run TO PLAYER",
+        "properties": {
+          "action": "A_MoveToPlayer",
+          "speedscale": 1
+        },
+        "display": {
+          "x": 252,
+          "y": 132
+        }
+      },
+      "f2991e2a-39ea-46b1-8b4a-882eff322e3b": {
+        "id": "f2991e2a-39ea-46b1-8b4a-882eff322e3b",
+        "name": "Selector",
+        "title": "？",
+        "description": "",
+        "properties": {},
+        "display": {
+          "x": -132,
+          "y": -60
+        },
+        "children": [
+          "a8c7ebe7-430e-4750-9a88-09aaab53f922",
+          "d88f623e-d2f4-4a3d-9f47-ef4509b0f985",
+          "ad6d3311-28fb-433d-b827-299c7070d798"
+        ]
+      }
+    },
+    "display": {
+      "camera_x": 960,
+      "camera_y": 468.5,
+      "camera_z": 1,
+      "x": -228,
+      "y": -48
+    },
+    "custom_nodes": [
+      {
+        "version": "0.3.0",
+        "scope": "node",
+        "name": "Condition",
+        "category": "condition",
+        "title": "ConditionTest",
+        "description": null,
+        "properties": {}
+      },
+      {
+        "version": "0.3.0",
+        "scope": "node",
+        "name": "Selector",
+        "category": "composite",
+        "title": "？",
+        "description": null,
+        "properties": {}
+      }
+    ]
+  }

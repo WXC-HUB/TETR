@@ -17,10 +17,10 @@ TagManager:
   - BlockGoingDown
   - Player
   - Bullet
-  - Enemy
-  - 
-  - 
-  - 
+  - EnemyPreparing
+  - EnemyActive
+  - WallUp
+  - Grid
   - 
   - 
   - 
