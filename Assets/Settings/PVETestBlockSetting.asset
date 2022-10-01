@@ -38,8 +38,7 @@ MonoBehaviour:
       enemyCnt: 0
     enemys:
     - type: 0
-      count: 1
-      weaponID: 1
+      count: 5
   - ID: 2
     groupWidth: 3
     groupHeight: 2
@@ -66,7 +65,6 @@ MonoBehaviour:
     enemys:
     - type: 0
       count: 2
-      weaponID: 1
   blockPrefabSetting:
   - type: 0
     prefab: {fileID: 0}
@@ -74,8 +72,6 @@ MonoBehaviour:
     prefab: {fileID: 3957255452512040957, guid: a19defab0355ad446841c5ead9e6381b, type: 3}
   - type: 2
     prefab: {fileID: 3957255452512040957, guid: 646f80b84bfcb894fbb92e83b5eea717, type: 3}
-  - type: 3
-    prefab: {fileID: 3957255452512040957, guid: e7e6c78c48deebc4a8c04674abb9e625, type: 3}
   enemyPrefabSetting:
   - type: 0
     prefab: {fileID: 8349011072065899575, guid: 2cc962769e8381347b44737f2950e82e, type: 3}

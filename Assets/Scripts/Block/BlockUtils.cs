@@ -5,7 +5,7 @@ public static class BlockUtils
 {
     public static GameObject SpawnSingleBlock(RawBlock block, Vector3 offset , Vector3 pos, Transform parent , bool isAssume = false)
     {
-
+        Debug.Log(block.type);
         if (block.type == BlockType.BaseBlock_A || block.type == BlockType.BaseBlock_B)
         {
             GameObject blockObj = LevelManager.Instance.blockSetting.blockPrefabSetting.Find((BlockPrefab n) => n.type == block.type).prefab;
@@ -21,14 +21,6 @@ public static class BlockUtils
         }
 
         return null;
-    }
 
-    public static GameObject SpawnBoarderGrid(Vector3 pos , Transform parent)
-    {
-        GameObject blockObj = LevelManager.Instance.blockSetting.blockPrefabSetting.Find((BlockPrefab n) => n.type == BlockType.Boarder).prefab;
-
-        GameObject n = GameObject.Instantiate(blockObj, pos, parent.rotation, parent);
-
-        return n;
     }
 }

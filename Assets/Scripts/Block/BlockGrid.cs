@@ -18,10 +18,6 @@ public class BlockGrid : MonoBehaviour
     List<GameObject> nowAssumeGroup;
 
     public Vector3 m_blockSpawnRoot;
-
-    public int m_height;
-    public int m_width;
-    public int m_center_x;
     // Start is called before the first frame update
     void Start()
     {
@@ -142,10 +138,6 @@ public class BlockGrid : MonoBehaviour
         cells = new List<List<Cell>>();
         int w_center = width / 2;
 
-        m_height = height;
-        m_width = width;
-        m_center_x = w_center;
-
         for(int i = 0; i<height; i++)
         {
             List<Cell> row = new List<Cell>();
@@ -155,8 +147,6 @@ public class BlockGrid : MonoBehaviour
 
                 cell.centerPos = new Vector3((j - w_center), (0.5f + i), 0) * block_width + w_centerPos;
                 cell.gridPos = new Vector2Int(j, i);
-
-                BlockUtils.SpawnBoarderGrid(cell.centerPos, transform);
 
 
                 if(i == height-1 && j == w_center)
@@ -171,7 +161,7 @@ public class BlockGrid : MonoBehaviour
         }
     }
 
-    public Cell GetNearestCell(Vector3 pos)
+    Cell GetNearestCell(Vector3 pos)
     {
         float mindis = 9999f;
         Cell cr = null;

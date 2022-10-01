@@ -6,8 +6,7 @@ public enum BlockType
 {
     Empty,
     BaseBlock_A,
-    BaseBlock_B,
-    Boarder
+    BaseBlock_B
 }
 
 public enum EnemyType
@@ -28,7 +27,6 @@ public struct RawEnemy
 {
     public EnemyType type;
     public int count;
-    public int weaponID;
 }
 
 [System.Serializable]

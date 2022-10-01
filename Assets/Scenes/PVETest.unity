@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 105109217}
   - component: {fileID: 105109216}
   - component: {fileID: 105109215}
-  m_Layer: 14
+  m_Layer: 6
   m_Name: Square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,8 +484,6 @@ GameObject:
   - component: {fileID: 778461237}
   - component: {fileID: 778461236}
   - component: {fileID: 778461238}
-  - component: {fileID: 778461240}
-  - component: {fileID: 778461239}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -549,35 +547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_blockSpawnRoot: {x: 0, y: 0, z: 0}
-  m_height: 0
-  m_width: 0
-  m_center_x: 0
---- !u!114 &778461239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778461235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fd25321aebf2a24f81631649354649d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &778461240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778461235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e49c7a56d9c0c214a87a079c3c383b38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensor: {fileID: 0}
-  isActive: 0
 --- !u!1 &1171421269
 GameObject:
   m_ObjectHideFlags: 0

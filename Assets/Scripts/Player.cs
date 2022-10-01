@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DaiAI;
+
 [System.Serializable]
 public class PlayerBase
 {
@@ -21,19 +21,14 @@ public class TetrPlayer : PlayerBase
         nowCtrlGroup.TryTurn(isleft);
     }
 
-    public virtual void MoveBlock(bool isleft)
+    public void MoveBlock(bool isleft)
     {
         nowCtrlGroup.TryMoveLeft(isleft);
     }
 
-    public bool isDropCD()
-    {
-        return !(Time.time - lastDropTime >= dropCD);
-    }
-
     public void StartDrop()
     {
-        if(!isDropCD())
+        if(Time.time - lastDropTime >= dropCD)
         {
             nowCtrlGroup.StartDrop();
             lastDropTime = Time.time;
@@ -80,71 +75,7 @@ public class TpsPlayer : PlayerBase
 [System.Serializable]
 public class AITetrPlayer : TetrPlayer
 {
-    public DaiAI.DaiAIAgent m_agent;
-    public int targetPos = -1;
-    public bool havePos = false;
-
-    public float lastOperateTime = -1;
-    float OperateCD = .3f;
-    public bool canOperate()
-    {
-        return Time.time - lastOperateTime >= OperateCD;
-    }
-
-    public void InitAI(DaiAI.TETRAgentBase _agent)
-    {
-        _agent.SetActionFunc("A_MoveBlockToRandomPos", A_MoveBlockToRandomPos);
-        _agent.SetActionFunc("A_DropBlock", A_DropBlock);
-        _agent.SetActionFunc("A_Idle", A_Idle);
-    }
-    public override void MoveBlock(bool isleft)
-    {
-        base.MoveBlock(isleft);
-        lastOperateTime = Time.time;
-    }
-
-
-    public BTNodeState A_MoveBlockToRandomPos(Dictionary<string, object> infos)
-    {
-        if(nowCtrlGroup == null)    return BTNodeState.Fail;
-        if(havePos == false)
-        {
-            float r = Random.Range(0f, 1f);
-            targetPos = 0;
-            if (r < 0.3f) targetPos = -3;
-            if (r > 0.6f) targetPos = 3;
-            havePos = true;
-        }
-
-        if(nowCtrlGroup.GetNowOffset() == targetPos)
-        {
-            havePos = false;
-            Debug.Log("Reach" + nowCtrlGroup.GetNowOffset() + "to" + targetPos);
-            return BTNodeState.Success;
-        }
-
-        if (canOperate())
-        {
-            Debug.Log("move!!!");
-            MoveBlock(nowCtrlGroup.GetNowOffset() > targetPos);
-        }
-
-        return BTNodeState.Running;
-
-    }
-
-    public BTNodeState A_DropBlock(Dictionary<string, object> infos)
-    {
-        if (nowCtrlGroup == null) return BTNodeState.Fail;
-        if (isDropCD()) return BTNodeState.Fail;
-        StartDrop();
-        return BTNodeState.Success;
-    }
-
-    public BTNodeState A_Idle(Dictionary<string, object> infos)
-    {
-        return BTNodeState.Success;
-    }
+    
 }
 
 public class TetrPlayer1P: TetrPlayer
