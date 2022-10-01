@@ -53,9 +53,16 @@ public class LevelManager : MonoSingleton<LevelManager>
 
         _InitLevelBasicObject();
 
-        gameState = GameState.Running;
+        
+
+        Invoke("_StartAllGame", 3);
     }
 
+    void _StartAllGame()
+    {
+        gameState = GameState.Running;
+        GetComponent<DaiAI.TETRAgentBase>().isActive = true;
+    }
 
     void _LoadPlayer(GameMode gameMode)
     {
@@ -64,7 +71,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             //tetrPlayer = new TetrPlayer1P();
             tetrPlayer = new AITetrPlayer();
             ((AITetrPlayer)tetrPlayer).InitAI(GetComponent<DaiAI.TETRAgentBase>());
-            GetComponent<DaiAI.TETRAgentBase>().isActive = true;
+            
             tpsPlayer = new TpsPlayer2P();
         }
     }
